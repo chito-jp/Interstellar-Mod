@@ -89,6 +89,13 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  if (req.cookies.todo !== "chito") {
+    return res.sendFile(path.join(__dirname, "static", "todo.html"));
+  }
+  next();
+});
+
 /* if (process.env.MASQR === "true") {
   console.log(chalk.green("Masqr is enabled"));
   setupMasqr(app);
