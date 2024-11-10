@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="誰でも使えるオープンソースのToDoリスト">
+    <title>ToDo</title>
+    <style>body{display: flex; flex-direction: column; align-items: center;}
+button{border-radius: 3px; background-color: #6b97e9; border: none; outline: none;}
+#input{background-color: #d4d4d4; outline: none; border: none;}</style>
+</head>
+<body>
+    <h1>ToDoリスト</h1>
+    <div>
+        <input type="text" id="input" placeholder="Add task here...">
+        <button id="addTask">追加</button>
+    </div>
+    <div id="ToDoContainer"></div>
+    <script>const container = document.getElementById("ToDoContainer");
+const addBtn = document.getElementById("addTask");
+const input = document.getElementById("input");
+const el = [];
+
+addBtn.addEventListener("click", () => {
+    if(input.value){
+        addTask(input.value)
+        input.value = "";
+    };
+});
+
+input.addEventListener("keydown", e => {
+    if(e.key === "Enter"){
+        addTask(input.value);
+        input.value = "";
+    }
+});
+
+const addElement = text => {
+    const el_container = document.createElement("div");
+    el_container.innerHTML = `<p>${text}</p>`;
+    container.appendChild(el_container);
+    el.push(el_container);
+};
+
+const addTask = text => {
+    addElement(text);
+    document.cookie = `todo=${text}; path=/;`;
+};
+
+const loadTask = () => {
+    const tasks = ["暗記に役立つサイト作り", "数学の勉強"];
+    tasks.forEach(task => {
+        addElement(task);
+    });
+};
+
+document.addEventListener("DOMContentLoaded", loadTask());</script>
+</body>
+</html>
